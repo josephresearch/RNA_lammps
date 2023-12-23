@@ -8,7 +8,7 @@
   - [1.5. Main simulations](#15-main-simulations)
 # 1. Source code for the manuscript
 
-> **Dilimulati Aierken and Jerelle Joseph, *Accelerated Simulations of RNA Phase Separation: A
+> **Dilimulati Aierken and Jerelle A. Joseph, *Accelerated Simulations of RNA Phase Separation: A
 > Systematic Study of Non-redundant Tandem Repeats*, BioRxiv (2023).**
 
 We are happy to share our implementation of a coarse-grained RNA model. Please feel free to use it

@@ -1,3 +1,4 @@
+[![DOI](https://zenodo.org/badge/735131874.svg)](https://zenodo.org/doi/10.5281/zenodo.10428291)
 - [1. Source code for the manuscript](#1-source-code-for-the-manuscript)
   - [1.1. System requirements](#11-system-requirements)
   - [1.2. Installation](#12-installation)

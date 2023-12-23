@@ -1,0 +1,99 @@
+###############################################
+# LAMMPS script for RNA simulations
+###############################################
+units real
+dimension 3
+boundary p p p
+atom_style full
+
+read_data  config_multi.dat
+
+
+
+variable myTemp equal 293
+variable randomSeed equal 13652
+
+#### harmonic bond between bonds
+bond_style harmonic
+#  pair_coeff for harmonic bond, specify 3:
+#    * bond type 
+#    * K/2
+#    * equilibrium distance
+bond_coeff 1 7.5 5.9
+
+
+#### harmonic angle potential between bonds 
+angle_style harmonic
+#  pair_coeff for harmonic angle, specify 3:
+#    * angle type 
+#    * K/2
+#    * equilibrium angle in degrees
+angle_coeff 1 5.0 150.0
+
+
+#### Excluded volume WCA-LJ potential and Base-Pair Potential
+pair_style hybrid/overlay lj/cut 10.0 base/rna 18.0
+
+# pair_coeff 1 1 -5.0 3.0 13.8
+# pair_style  hybrid/overlay base/test 18.0 lj/cut 10.0
+
+#  pair_coeff for LJ, specify 2:
+#    * energy
+#    * sigma
+pair_coeff * * lj/cut 2.0 8.9089871814
+pair_modify pair lj/cut shift yes    # option to ensure energy is calculated corectly
+
+#  pair_coeff for Base Pair Interactions, specify 9:
+#    * energy Ubp: A-1, C-2, G-3, U-4
+#    * harmonic K_r
+#    * Equilibrium distance r_0
+#    * harmonic K_theta
+#    * dihedral K_phi
+#    * Equilibrium angle theta1
+#    * Equilibrium angle theta2
+#    * Equilibrium angle phi1
+#    * Equilibrium angle phi2
+pair_coeff 1 1 base/rna 0.00000 3.0 13.8 1.5 0.5 1.8326 0.9425 1.8326 1.1345 #AA
+pair_coeff 1 2 base/rna 0.00000 3.0 13.8 1.5 0.5 1.8326 0.9425 1.8326 1.1345 #AC
+pair_coeff 1 3 base/rna 0.00000 3.0 13.8 1.5 0.5 1.8326 0.9425 1.8326 1.1345 #AG
+pair_coeff 1 4 base/rna 3.33333 3.0 13.8 1.5 0.5 1.8326 0.9425 1.8326 1.1345 #AU
+pair_coeff 2 2 base/rna 0.00000 3.0 13.8 1.5 0.5 1.8326 0.9425 1.8326 1.1345 #CC
+pair_coeff 2 3 base/rna 5.00000 3.0 13.8 1.5 0.5 1.8326 0.9425 1.8326 1.1345 #CG
+pair_coeff 2 4 base/rna 0.00000 3.0 13.8 1.5 0.5 1.8326 0.9425 1.8326 1.1345 #CU
+pair_coeff 3 3 base/rna 0.00000 3.0 13.8 1.5 0.5 1.8326 0.9425 1.8326 1.1345 #GG
+pair_coeff 3 4 base/rna 3.33333 3.0 13.8 1.5 0.5 1.8326 0.9425 1.8326 1.1345 #GU
+pair_coeff 4 4 base/rna 0.00000 3.0 13.8 1.5 0.5 1.8326 0.9425 1.8326 1.1345 #UU
+
+
+
+special_bonds lj 0.0 0.0 1.0 # coeffecient of WCA for 1-2, 1-3, and 1-4
+
+velocity        all create ${myTemp} ${randomSeed} #assign initial velocities
+
+
+neighbor  15.0 bin
+# Timestep and computational parameters
+comm_style      tiled
+timestep        10
+
+
+neigh_modify    every 10 delay 0
+
+fix             fxnve   all nve
+fix             fxlange all langevin ${myTemp} ${myTemp} 100000.0 ${randomSeed}
+fix             fxbal  all balance 1000 1.05 rcb
+
+
+
+# Thermo output settings
+thermo          100
+thermo_style    custom step pe
+thermo_modify   flush yes
+
+# restart      1000000 restart
+
+dump            1 all custom 1000 47CAG_200um_${myTemp}.lammpstrj id mol type xu yu zu
+dump_modify     1 sort id
+
+# run for 10ns
+run             1000000

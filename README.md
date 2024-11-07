@@ -9,11 +9,10 @@
   - [1.5. Main simulations](#15-main-simulations)
 # 1. Source code for the manuscript
 
-> **Dilimulati Aierken and Jerelle A. Joseph, *Accelerated Simulations of RNA Phase Separation: A
-> Systematic Study of Non-redundant Tandem Repeats*, BioRxiv (2023). https://doi.org/10.1101/2023.12.23.573204**
+> **Dilimulati Aierken and Jerelle A. Joseph, Accelerated Simulations Reveal Physicochemical Factors Governing Stability and Composition of RNA Clusters, *Journal of Chemical Theory and Computation* (2024). https://pubs.acs.org/doi/10.1021/acs.jctc.4c00803**
 
 We are happy to share our implementation of a coarse-grained RNA model. Please feel free to use it
-and cite our paper (Preprint: https://doi.org/10.1101/2023.12.23.573204)
+and cite our paper.
 
 ## 1.1. System requirements
 Linux systems, C++ compilers, and MPI capability. Tested on [Della

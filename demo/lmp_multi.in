@@ -71,7 +71,7 @@ special_bonds lj 0.0 0.0 1.0 # coeffecient of WCA for 1-2, 1-3, and 1-4
 velocity        all create ${myTemp} ${randomSeed} #assign initial velocities
 
 
-neighbor  15.0 bin
+neighbor  25.0 bin
 # Timestep and computational parameters
 comm_style      tiled
 timestep        10
